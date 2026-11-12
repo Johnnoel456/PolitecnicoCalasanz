@@ -1,0 +1,697 @@
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Politécnico Calasanz</title>
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+			html {
+				scroll-behavior: smooth;
+				scroll-padding-top: 20px;
+			}
+			body {
+				font-family: Arial, sans-serif;
+				background-color: #f5f8fc;
+				color: #123b68;
+			}
+			/* ENCABEZADO */
+			header {
+				background-color: white;
+				min-height: 115px;
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				padding: 15px 5%;
+				gap: 20px;
+				box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+			}
+			.logo-area {
+				display: flex;
+				align-items: center;
+				gap: 20px;
+			}
+			.logo {
+				width: 110px;
+				height: 110px;
+				border: 3px solid #124b87;
+				border-radius: 50%;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				text-align: center;
+				font-size: 12px;
+				font-weight: bold;
+				color: #124b87;
+				overflow: hidden;
+				flex-shrink: 0;
+			}
+			.logo img {
+				width: 70px;
+				height: 70px;
+				object-fit: contain;
+			}
+			.nombre-colegio {
+				font-size: 30px;
+				font-weight: bold;
+				color: #124b87;
+			}
+			/* MENÚ */
+			nav {
+				display: flex;
+				gap: 10px;
+				flex-wrap: wrap;
+				justify-content: center;
+			}
+			nav a {
+				display: inline-block;
+				text-decoration: none;
+				color: #124b87;
+				background-color: #dceafa;
+				padding: 15px 18px;
+				border-radius: 12px;
+				font-weight: bold;
+				transition: 0.3s;
+			}
+			nav a:hover {
+				background-color: #124b87;
+				color: white;
+				transform: translateY(-3px);
+			}
+			/* CARRUSEL ORIGINAL */
+			.carrusel {
+				width: 100%;
+				height: 420px;
+				overflow: hidden;
+				position: relative;
+			}
+			.slides {
+				display: flex;
+				width: 300%;
+				height: 100%;
+				animation: mover 15s infinite;
+			}
+			.slide {
+				width: 33.333%;
+				height: 100%;
+				position: relative;
+			}
+			.slide img {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+			}
+			.texto-slide {
+				position: absolute;
+				top: 50%;
+				left: 8%;
+				transform: translateY(-50%);
+				color: white;
+				font-size: 45px;
+				font-weight: bold;
+				text-shadow: 2px 3px 8px black;
+			}
+			@keyframes mover {
+				0%,
+				28% {
+					transform: translateX(0);
+				}
+				33%,
+				61% {
+					transform: translateX(-33.333%);
+				}
+				66%,
+				94% {
+					transform: translateX(-66.666%);
+				}
+				100% {
+					transform: translateX(0);
+				}
+			}
+			/* SECCIONES */
+			.seccion {
+				padding: 40px 6%;
+			}
+			.titulo {
+				text-align: center;
+				font-size: 30px;
+				margin-bottom: 30px;
+				color: #124b87;
+			}
+			.intro {
+				text-align: center;
+				max-width: 800px;
+				margin: -12px auto 30px;
+				line-height: 1.6;
+				color: #40546a;
+			}
+			/* NOSOTROS */
+			.nosotros {
+				background-color: white;
+				padding: 60px 6%;
+				margin-top: 20px;
+			}
+			.valores {
+				display: grid;
+				grid-template-columns: repeat(3, 1fr);
+				gap: 25px;
+				max-width: 1200px;
+				margin: auto;
+			}
+			.valor {
+				background-color: #f5f8fc;
+				border-radius: 15px;
+				padding: 30px;
+				text-align: center;
+				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+				border-top: 5px solid #124b87;
+				transition: 0.3s;
+			}
+			.valor:hover {
+				transform: translateY(-7px);
+				box-shadow: 0 8px 20px rgba(18, 75, 135, 0.2);
+			}
+			.valor h3 {
+				font-size: 24px;
+				margin-bottom: 15px;
+				color: #124b87;
+			}
+			.valor p {
+				font-size: 16px;
+				line-height: 1.6;
+				color: #333;
+			}
+			/* VIDEOS */
+			.videos {
+				display: grid;
+				grid-template-columns: repeat(3, 1fr);
+				gap: 25px;
+			}
+			.video {
+				width: 100%;
+				height: 230px;
+				border: none;
+				border-radius: 15px;
+				box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+			}
+			/* TARJETAS: se conserva el estilo original */
+			.tarjetas {
+				display: grid;
+				grid-template-columns: repeat(3, 1fr);
+				gap: 25px;
+			}
+			.tarjeta {
+				background-color: white;
+				border-radius: 15px;
+				padding: 20px;
+				text-align: center;
+				cursor: pointer;
+				border: 3px solid transparent;
+				transition: 0.3s;
+				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+			}
+			.tarjeta:hover {
+				transform: translateY(-7px);
+				border-color: #1976d2;
+				box-shadow: 0 8px 20px rgba(25, 118, 210, 0.25);
+			}
+			.tarjeta.seleccionada {
+				border-color: #124b87;
+				background-color: #e7f1ff;
+			}
+			.tarjeta img {
+				width: 100%;
+				height: 150px;
+				object-fit: contain;
+				border-radius: 10px;
+				margin-bottom: 15px;
+			}
+			.tarjeta h3 {
+				font-size: 20px;
+				color: #124b87;
+				margin-bottom: 10px;
+			}
+			.tarjeta p {
+				color: #34495e;
+				line-height: 1.55;
+				margin-bottom: 15px;
+			}
+			.boton {
+				display: inline-block;
+				text-decoration: none;
+				color: #124b87;
+				background-color: #dceafa;
+				padding: 12px 20px;
+				border-radius: 10px;
+				font-weight: bold;
+				transition: 0.3s;
+				border: 0;
+				cursor: pointer;
+				font-size: 15px;
+			}
+			.boton:hover {
+				background: #124b87;
+				color: white;
+				transform: translateY(-2px);
+			}
+			.boton.principal {
+				background: #124b87;
+				color: white;
+			}
+			.boton.principal:hover {
+				background: #0b315b;
+			}
+			.fondo-azul {
+				background: #eaf2fc;
+			}
+			.nota {
+				font-size: 13px;
+				color: #596777;
+				margin-top: 18px;
+				text-align: center;
+			}
+
+			/* PIE DE PÁGINA */
+
+			.footer {
+				background: #123b68;
+				color: white;
+				text-align: center;
+				padding: 35px 20px 0;
+				margin-top: 40px;
+			}
+
+			.footer h3 {
+				font-size: 20px;
+				margin-bottom: 10px;
+			}
+
+			.footer p {
+				color: #dceafa;
+				font-size: 14px;
+				margin-bottom: 25px;
+			}
+
+			.footer h4 {
+				font-size: 16px;
+				margin-bottom: 18px;
+			}
+
+			.redes-sociales {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				flex-wrap: wrap;
+				gap: 15px;
+				padding-bottom: 28px;
+			}
+
+			.redes-sociales a {
+				display: flex;
+				align-items: center;
+				gap: 8px;
+				padding: 10px 16px;
+				border: 1px solid #ffffff50;
+				border-radius: 8px;
+				color: white;
+				text-decoration: none;
+				font-size: 14px;
+				transition: 0.3s;
+			}
+
+			.redes-sociales a:hover {
+				background: #dceafa;
+				color: #123b68;
+				transform: translateY(-3px);
+			}
+
+			.icono-red {
+				font-size: 22px;
+				font-weight: bold;
+			}
+
+			.footer-final {
+				border-top: 1px solid #ffffff30;
+				padding: 17px 10px;
+				color: #dceafa;
+				font-size: 12px;
+			}
+
+			footer {
+				margin-top: 30px;
+				background-color: #123b68;
+				color: white;
+				text-align: center;
+				padding: 25px;
+				font-size: 16px;
+			}
+			/* RESPONSIVE */
+			@media (max-width: 900px) {
+				header {
+					height: auto;
+					flex-direction: column;
+					gap: 20px;
+				}
+				.nombre-colegio {
+					font-size: 26px;
+				}
+				nav {
+					flex-wrap: wrap;
+					justify-content: center;
+				}
+				.videos {
+					grid-template-columns: 1fr 1fr;
+				}
+				.tarjetas,
+				.valores {
+					grid-template-columns: repeat(2, 1fr);
+				}
+			}
+			@media (max-width: 600px) {
+				.logo-area {
+					gap: 10px;
+				}
+				.logo {
+					width: 65px;
+					height: 65px;
+				}
+				.logo img {
+					width: 48px;
+					height: 48px;
+				}
+				.nombre-colegio {
+					font-size: 19px;
+				}
+				.carrusel {
+					height: 300px;
+				}
+				.texto-slide {
+					font-size: 30px;
+				}
+				.videos,
+				.tarjetas,
+				.valores {
+					grid-template-columns: 1fr;
+				}
+				.seccion,
+				.nosotros {
+					padding: 40px 5%;
+				}
+				.titulo {
+					font-size: 26px;
+				}
+				nav a {
+					padding: 10px 12px;
+					font-size: 14px;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<!-- ENCABEZADO: se mantiene el diseño original -->
+		<header>
+			<div class="logo-area">
+				<div class="logo">
+					<img src="logo.jpg" alt="Logo del Politécnico Calasanz" />
+				</div>
+				<div class="nombre-colegio">POLITÉCNICO CALASANZ</div>
+			</div>
+			<nav>
+				<a href="#inicio" class="activo">Inicio</a>
+				<a href="#nosotros">Nosotros</a>
+				<a href="#clubes">Clubes</a>
+				<a href="#admisiones">Admisiones</a>
+				<a href="#egresados">Egresados</a>
+				<a href="#pagos">Pagos</a>
+				<a href="login.html">Iniciar sesión</a>
+			</nav>
+		</header>
+		<!-- CARRUSEL ORIGINAL -->
+		<section class="carrusel" id="inicio">
+			<div class="slides">
+				<div class="slide">
+					<img src="foto-carrusel.jpeg" alt="Politécnico Calasanz" />
+					<div class="texto-slide">
+						Bienvenidos al
+						<br />
+						Politécnico Calasanz
+					</div>
+				</div>
+				<div class="slide">
+					<img src="foto2.jpeg" alt="Estudiantes del Politécnico" />
+					<div class="texto-slide">
+						Juntos construimos
+						<br />
+						grandes sueños
+					</div>
+				</div>
+				<div class="slide">
+					<img src="foto3.jpeg" alt="Estudiantes" />
+					<div class="texto-slide">
+						Calasanz
+						<br />
+						es futuro
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- VIDEOS ORIGINALES -->
+		<section class="seccion">
+			<h2 class="titulo">Conoce nuestro Politécnico</h2>
+			<div class="videos">
+				<iframe
+					class="video"
+					src="https://www.youtube.com/embed/PM60XecG6zs"
+					title="Video de YouTube"
+					allowfullscreen
+				></iframe>
+				<iframe
+					class="video"
+					src="https://www.youtube.com/embed/oy37_ZfK1jE"
+					title="Video de YouTube"
+					allowfullscreen
+				></iframe>
+				<iframe
+					class="video"
+					src="https://www.youtube.com/embed/rhqmGFcLAuM"
+					title="Video de YouTube"
+					allowfullscreen
+				></iframe>
+			</div>
+		</section>
+		<!-- NOSOTROS ORIGINAL -->
+		<section class="nosotros" id="nosotros">
+			<h2 class="titulo">Sobre Nosotros</h2>
+			<div class="valores">
+				<div class="valor">
+					<h3>Misión</h3>
+					<p>
+						Formar jóvenes con una educación integral, basada en valores humanos
+						y cristianos, preparándolos para enfrentar los desafíos de la
+						sociedad y contribuir positivamente a su comunidad.
+					</p>
+				</div>
+				<div class="valor">
+					<h3>Visión</h3>
+					<p>
+						Ser una institución educativa reconocida por la calidad de su
+						enseñanza, la formación en valores y el desarrollo de estudiantes
+						preparados para continuar sus estudios y aportar al desarrollo de la
+						sociedad.
+					</p>
+				</div>
+				<div class="valor">
+					<h3>Valores Institucionales</h3>
+					<p>
+						Responsabilidad, respeto, solidaridad, honestidad, disciplina,
+						compromiso, servicio y convivencia, promoviendo una formación
+						integral en nuestros estudiantes.
+					</p>
+				</div>
+			</div>
+		</section>
+		<!-- NUEVA SECCIÓN: CLUBES DEPORTIVOS -->
+		<section class="seccion" id="clubes">
+			<h2 class="titulo">Clubes deportivos</h2>
+			<p class="intro">
+				Conoce los clubes deportivos de nuestra escuela y las actividades en las
+				que puedes participar.
+			</p>
+			<div class="tarjetas">
+				<article class="tarjeta">
+					<img src="voley.png" alt="Club de voleibol" />
+					<h3>Voleibol</h3>
+					<p>
+						Practica tus habilidades, mejora la coordinación y aprende a
+						trabajar en equipo.
+					</p>
+					<a class="boton" href="login.html">Más información</a>
+				</article>
+				<article class="tarjeta">
+					<img src="basket.png" alt="Club de baloncesto" />
+					<h3>Baloncesto</h3>
+					<p>
+						Desarrolla tu disciplina, estrategia y compañerismo dentro de la
+						cancha.
+					</p>
+					<a class="boton" href="login.html">Más información</a>
+				</article>
+				<article class="tarjeta">
+					<img src="futbol.png" alt="Club de fútbol" />
+					<h3>Fútbol</h3>
+					<p>
+						Participa en actividades que promueven el ejercicio, el respeto y el
+						trabajo en equipo.
+					</p>
+					<a class="boton" href="login.html">Más información</a>
+				</article>
+			</div>
+			<p class="nota">
+				Puedes reemplazar las imágenes de ejemplo por fotografías de los clubes
+				de la escuela.
+			</p>
+		</section>
+		<!-- NUEVA SECCIÓN: ADMISIONES Y SEDUCA -->
+		<section class="seccion fondo-azul" id="admisiones">
+			<h2 class="titulo">Admisiones</h2>
+			<p class="intro">
+				Realiza una solicitud de admisión o entra a las plataformas que utiliza
+				el colegio.
+			</p>
+			<div class="tarjetas">
+				<article class="tarjeta">
+					<h3>Solicitud de admisión</h3>
+					<p>Completa el formulario con los datos del estudiante y su tutor.</p>
+					<a class="boton principal" href="solicitud-admision.html">
+						Solicitar admisión
+					</a>
+				</article>
+				<article class="tarjeta">
+					<h3>Seduca Padres</h3>
+					<p>
+						Acceso para madres, padres y tutores a la plataforma utilizada por
+						el centro.
+					</p>
+					<a class="boton" href="https://gseducativas.com/es/inicio-de-sesion/">
+						Entrar a Seduca Padres
+					</a>
+				</article>
+				<article class="tarjeta">
+					<h3>Seduca Estudiantes</h3>
+					<p>Acceso para estudiantes a la plataforma académica del colegio.</p>
+					<a class="boton" href="https://gseducativas.com/es/inicio-de-sesion/">
+						Entrar a Seduca Estudiantes
+					</a>
+				</article>
+			</div>
+			<p class="nota">
+				Los enlaces de Seduca deben sustituirse por las direcciones oficiales
+				que utiliza el colegio.
+			</p>
+		</section>
+		<!-- NUEVA SECCIÓN: EXPERIENCIAS DE EGRESADOS -->
+		<section class="seccion" id="egresados">
+			<h2 class="titulo">Experiencias de nuestros egresados</h2>
+			<p class="intro">
+				Una mirada a los recuerdos y aprendizajes que forman parte de la vida
+				escolar.
+			</p>
+			<div class="tarjetas">
+				<article class="tarjeta">
+					<h3>Formación para el futuro</h3>
+					<p>
+						“Mi paso por el Politécnico me ayudó a aprender cosas nuevas y a
+						prepararme para los próximos retos.”
+					</p>
+					<strong>— Testimonio de ejemplo</strong>
+				</article>
+				<article class="tarjeta">
+					<h3>Aprendizaje y compañerismo</h3>
+					<p>
+						“Las actividades y el trabajo con mis compañeros fueron una parte
+						importante de mi etapa escolar.”
+					</p>
+					<strong>— Testimonio de ejemplo</strong>
+				</article>
+				<article class="tarjeta">
+					<h3>Recuerdos que motivan</h3>
+					<p>
+						“Me llevo conocimientos y experiencias que me animan a continuar
+						estudiando y alcanzar mis metas.”
+					</p>
+					<strong>— Testimonio de ejemplo</strong>
+				</article>
+			</div>
+			<p class="nota">
+				Los testimonios son ejemplos de diseño; cámbialos por experiencias
+				reales con autorización de los egresados.
+			</p>
+		</section>
+		<!-- NUEVA SECCIÓN: PAGOS -->
+		<section class="seccion fondo-azul" id="pagos">
+			<h2 class="titulo">Pago de colegiatura</h2>
+			<div class="tarjetas">
+				<article
+					class="tarjeta"
+					style="
+						grid-column: 1/-1;
+						max-width: 650px;
+						width: 100%;
+						justify-self: center;
+					"
+				>
+					<h3>Paga tu colegiatura</h3>
+					<p>
+						Accede al formulario de pago de colegiatura. La página de
+						demostración permite ver el diseño para pagos con tarjeta de crédito
+						o débito.
+					</p>
+					<a class="boton principal" href="pago-colegiatura.html">Ir a pagos</a>
+					<p class="nota">
+						Los pagos reales requieren una pasarela de pago segura autorizada
+						por el colegio.
+					</p>
+				</article>
+			</div>
+		</section>
+		<!-- PIE DE PÁGINA ORIGINAL -->
+
+		<footer class="footer">
+			<h3>POLITÉCNICO CALASANZ</h3>
+			<p>Formando jóvenes con valores y conocimientos para el futuro.</p>
+
+			<h4>Síguenos en nuestras redes sociales</h4>
+
+			<div class="redes-sociales">
+				<a
+					href="https://www.instagram.com/liceocalasanzr/"
+					target="_blank"
+					rel="noopener noreferrer"
+					aria-label="Instagram del Politécnico Calasanz"
+				>
+					<span class="icono-red">◎</span>
+					Instagram
+				</a>
+
+				<a
+					href="https://www.facebook.com/"
+					target="_blank"
+					rel="noopener noreferrer"
+					aria-label="Facebook"
+				>
+					<span class="icono-red">f</span>
+					Facebook
+				</a>
+				
+			</div>
+
+			<div class="footer-final">
+				© 2026 Politécnico Calasanz. Todos los derechos reservados.
+			</div>
+		</footer>
+	</body>
+</html>

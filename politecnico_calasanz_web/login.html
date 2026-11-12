@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+		<title>Iniciar sesión | Politécnico Calasanz</title>
+		<style>
+			* {
+				box-sizing: border-box;
+				margin: 0;
+				padding: 0;
+			}
+			body {
+				font-family: Arial, sans-serif;
+				background: #f5f8fc;
+				color: #123b68;
+				min-height: 100vh;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				padding: 20px;
+			}
+			.caja {
+				background: white;
+				width: 100%;
+				max-width: 430px;
+				padding: 35px;
+				border-radius: 15px;
+				box-shadow: 0 5px 20px #0002;
+				text-align: center;
+				border-top: 5px solid #124b87;
+			}
+			.logo {
+				width: 85px;
+				height: 85px;
+				object-fit: contain;
+				margin-bottom: 12px;
+			}
+			.titulo {
+				color: #124b87;
+				margin-bottom: 8px;
+			}
+			.subtitulo {
+				color: #526579;
+				margin-bottom: 25px;
+			}
+			label {
+				display: block;
+				text-align: left;
+				font-weight: bold;
+				margin: 14px 0 6px;
+			}
+			input,
+			select {
+				width: 100%;
+				padding: 12px;
+				border: 1px solid #c4d2e2;
+				border-radius: 8px;
+				font-size: 15px;
+			}
+			button,
+			.boton {
+				display: block;
+				width: 100%;
+				padding: 13px;
+				margin-top: 20px;
+				border: 0;
+				border-radius: 9px;
+				background: #124b87;
+				color: white;
+				font-weight: bold;
+				font-size: 16px;
+				text-decoration: none;
+				cursor: pointer;
+			}
+			button:hover,
+			.boton:hover {
+				background: #123b68;
+			}
+			.volver {
+				display: inline-block;
+				margin-top: 20px;
+				color: #124b87;
+				text-decoration: none;
+			}
+			.aviso {
+				font-size: 13px;
+				color: #657386;
+				margin-top: 14px;
+				line-height: 1.5;
+			}
+		</style>
+	</head>
+	<body>
+		<main class="caja">
+			<img
+				class="logo"
+				src="logo.jpg"
+				alt="Logo del Politécnico Calasanz"
+			/>
+			<h1 class="titulo">Iniciar sesión</h1>
+			<p class="subtitulo">Portal del Politécnico Calasanz</p>
+			<form
+				onsubmit="
+					event.preventDefault();
+					alert(
+						'Esta es una demostración. Todavía no hay un sistema conectado para verificar usuarios.',
+					);
+				"
+			>
+				<label for="tipo">Tipo de usuario</label
+				><select id="tipo" required>
+					<option value="">Selecciona una opción</option>
+					<option>Estudiante</option>
+					<option>Padre, madre o tutor</option>
+					<option>Personal del centro</option></select
+				><label for="usuario">Usuario o correo</label
+				><input
+					id="usuario"
+					autocomplete="username"
+					required
+					placeholder="Escribe tu usuario"
+				/><label for="clave">Contraseña</label
+				><input
+					id="clave"
+					type="password"
+					autocomplete="current-password"
+					required
+					placeholder="Escribe tu contraseña"
+				/><button type="submit">Entrar</button>
+			</form>
+			<p class="aviso">
+				Página de demostración. No introduzcas contraseñas reales; este
+				formulario no autentica ni guarda datos.
+			</p>
+			<a class="volver" href="index.html"
+				>← Volver a la página principal</a
+			>
+		</main>
+	</body>
+</html>

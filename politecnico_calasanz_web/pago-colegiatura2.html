@@ -1,0 +1,967 @@
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Portal de pagos | Politécnico Calasanz</title>
+		<style>
+			:root {
+				--azul: #124b87;
+				--azul-oscuro: #123b68;
+				--azul-claro: #eaf2fc;
+				--fondo: #f4f7fb;
+				--texto: #23364d;
+				--gris: #66758a;
+				--borde: #d9e2ee;
+				--verde: #198754;
+			}
+			* {
+				box-sizing: border-box;
+				margin: 0;
+				padding: 0;
+			}
+			body {
+				font-family: Arial, sans-serif;
+				background: var(--fondo);
+				color: var(--texto);
+				min-height: 100vh;
+			}
+			header {
+				height: 86px;
+				background: #fff;
+				border-bottom: 1px solid #e3eaf3;
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				padding: 0 max(5%, calc((100% - 1180px) / 2));
+				gap: 18px;
+			}
+			.marca {
+				display: flex;
+				align-items: center;
+				gap: 12px;
+				color: var(--azul-oscuro);
+				font-weight: 700;
+				letter-spacing: 0.3px;
+			}
+			.logo {
+				width: 54px;
+				height: 54px;
+				object-fit: contain;
+				border-radius: 50%;
+			}
+			.marca small {
+				display: block;
+				color: var(--gris);
+				font-weight: 400;
+				letter-spacing: 0;
+				margin-top: 4px;
+				font-size: 12px;
+			}
+			.volver {
+				color: var(--azul);
+				text-decoration: none;
+				font-weight: 700;
+				font-size: 14px;
+			}
+			.volver:hover {
+				text-decoration: underline;
+			}
+			.contenedor {
+				max-width: 1120px;
+				margin: 35px auto;
+				padding: 0 22px 40px;
+			}
+			.encabezado {
+				margin-bottom: 26px;
+			}
+			.migas {
+				font-size: 13px;
+				color: var(--gris);
+				margin-bottom: 12px;
+			}
+			.migas a {
+				color: var(--azul);
+				text-decoration: none;
+			}
+			.encabezado h1 {
+				font-size: 30px;
+				color: var(--azul-oscuro);
+				margin-bottom: 9px;
+			}
+			.encabezado p {
+				color: var(--gris);
+				line-height: 1.5;
+			}
+			.pasos {
+				display: flex;
+				align-items: center;
+				gap: 12px;
+				margin-top: 22px;
+				max-width: 520px;
+			}
+			.paso {
+				display: flex;
+				align-items: center;
+				gap: 8px;
+				color: var(--gris);
+				font-size: 13px;
+				white-space: nowrap;
+			}
+			.numero {
+				width: 28px;
+				height: 28px;
+				border-radius: 50%;
+				display: grid;
+				place-items: center;
+				background: #e0e8f2;
+				font-weight: 700;
+			}
+			.paso.activo {
+				color: var(--azul);
+				font-weight: 700;
+			}
+			.paso.activo .numero {
+				background: var(--azul);
+				color: #fff;
+			}
+			.linea {
+				height: 1px;
+				background: var(--borde);
+				flex: 1;
+			}
+			.columnas {
+				display: grid;
+				grid-template-columns: minmax(0, 1.45fr) minmax(280px, 0.8fr);
+				gap: 24px;
+				align-items: start;
+			}
+			.panel {
+				background: white;
+				border: 1px solid #e2e9f2;
+				border-radius: 15px;
+				box-shadow: 0 5px 20px #173b6410;
+				overflow: hidden;
+				margin-bottom: 20px;
+			}
+			.panel-titulo {
+				padding: 20px 24px;
+				border-bottom: 1px solid #e9eef5;
+				display: flex;
+				align-items: center;
+				gap: 12px;
+			}
+			.icono {
+				width: 38px;
+				height: 38px;
+				display: grid;
+				place-items: center;
+				border-radius: 10px;
+				background: var(--azul-claro);
+				color: var(--azul);
+				font-size: 19px;
+			}
+			.panel-titulo h2 {
+				font-size: 18px;
+				color: var(--azul-oscuro);
+			}
+			.panel-titulo p {
+				font-size: 13px;
+				color: var(--gris);
+				margin-top: 4px;
+			}
+			.contenido {
+				padding: 22px 24px;
+			}
+			.grupo {
+				margin-bottom: 18px;
+			}
+			.grupo:last-child {
+				margin-bottom: 0;
+			}
+			label {
+				display: block;
+				font-weight: 700;
+				font-size: 13px;
+				margin-bottom: 8px;
+				color: #34465c;
+			}
+			.ayuda {
+				font-size: 12px;
+				color: var(--gris);
+				font-weight: 400;
+				margin-left: 4px;
+			}
+			input,
+			select {
+				width: 100%;
+				height: 45px;
+				padding: 0 12px;
+				border: 1px solid #cbd7e5;
+				border-radius: 8px;
+				background: #fff;
+				color: var(--texto);
+				font: inherit;
+				font-size: 14px;
+				outline: none;
+				transition:
+					border 0.15s,
+					box-shadow 0.15s;
+			}
+			input:focus,
+			select:focus {
+				border-color: #3979bd;
+				box-shadow: 0 0 0 3px #124b8717;
+			}
+			.dos {
+				display: grid;
+				grid-template-columns: 1fr 1fr;
+				gap: 15px;
+			}
+			.metodos {
+				display: grid;
+				grid-template-columns: 1fr 1fr;
+				gap: 12px;
+			}
+			.metodo {
+				border: 1px solid var(--borde);
+				border-radius: 10px;
+				padding: 13px;
+				display: flex;
+				align-items: center;
+				gap: 9px;
+				cursor: pointer;
+			}
+			.metodo:has(input:checked) {
+				border-color: var(--azul);
+				background: #f4f8ff;
+			}
+			.metodo input {
+				width: 16px;
+				height: 16px;
+				accent-color: var(--azul);
+			}
+			.metodo span {
+				font-size: 13px;
+				font-weight: 700;
+			}
+			.marcas-tarjeta {
+				margin-left: auto;
+				color: #526579;
+				font-size: 11px;
+				font-weight: 700;
+				white-space: nowrap;
+			}
+			.campos-tarjeta {
+				margin-top: 18px;
+				padding: 17px;
+				background: #f8fafd;
+				border: 1px solid #e5ebf3;
+				border-radius: 10px;
+			}
+			.campo-numero {
+				position: relative;
+			}
+			.campo-numero input {
+				padding-right: 50px;
+			}
+			.mini-tarjeta {
+				position: absolute;
+				right: 12px;
+				top: 13px;
+				font-size: 12px;
+				font-weight: 700;
+				color: #526579;
+			}
+			.nota-candado {
+				display: flex;
+				gap: 9px;
+				align-items: flex-start;
+				color: var(--gris);
+				font-size: 12px;
+				line-height: 1.5;
+				margin-top: 16px;
+			}
+			.nota-candado strong {
+				color: #40536a;
+			}
+			.resumen {
+				position: sticky;
+				top: 20px;
+			}
+			.resumen .contenido {
+				padding: 22px;
+			}
+			.etiqueta {
+				font-size: 12px;
+				color: var(--gris);
+				margin-bottom: 8px;
+			}
+			.total {
+				font-size: 32px;
+				font-weight: 700;
+				letter-spacing: -0.7px;
+				color: var(--azul-oscuro);
+				margin-bottom: 5px;
+			}
+			.moneda {
+				font-size: 12px;
+				color: var(--gris);
+			}
+			.separador {
+				height: 1px;
+				background: #e9eef5;
+				margin: 20px 0;
+			}
+			.fila {
+				display: flex;
+				justify-content: space-between;
+				gap: 14px;
+				font-size: 13px;
+				margin: 14px 0;
+			}
+			.fila span:first-child {
+				color: var(--gris);
+			}
+			.fila strong {
+				text-align: right;
+				color: var(--texto);
+			}
+			.fila.total-fila {
+				font-size: 15px;
+				padding-top: 15px;
+				border-top: 1px solid #e9eef5;
+			}
+			.fila.total-fila span:first-child {
+				color: var(--azul-oscuro);
+				font-weight: 700;
+			}
+			.fila.total-fila strong {
+				font-size: 17px;
+				color: var(--azul);
+			}
+			.boton {
+				width: 100%;
+				height: 48px;
+				border: 0;
+				border-radius: 9px;
+				background: var(--azul);
+				color: #fff;
+				font-size: 15px;
+				font-weight: 700;
+				cursor: pointer;
+				margin-top: 18px;
+				transition: background 0.15s;
+			}
+			.boton:hover {
+				background: var(--azul-oscuro);
+			}
+			.boton:disabled {
+				opacity: 0.6;
+				cursor: not-allowed;
+			}
+			.seguridad {
+				display: flex;
+				gap: 8px;
+				align-items: center;
+				justify-content: center;
+				color: var(--gris);
+				font-size: 11px;
+				margin-top: 14px;
+			}
+			.info {
+				background: #f0f6ff;
+				border: 1px solid #dce9fb;
+				border-radius: 10px;
+				padding: 14px;
+				font-size: 12px;
+				line-height: 1.55;
+				color: #405b7c;
+				margin-top: 18px;
+			}
+			.info strong {
+				display: block;
+				color: var(--azul-oscuro);
+				margin-bottom: 4px;
+			}
+			.pie {
+				text-align: center;
+				font-size: 12px;
+				color: var(--gris);
+				line-height: 1.7;
+				margin: 8px 0 0;
+			}
+			.pie a {
+				color: var(--azul);
+				text-decoration: none;
+			}
+			.demo {
+				background: #fff8e8;
+				border: 1px solid #f0dfb4;
+				color: #725b22;
+				padding: 11px 13px;
+				border-radius: 9px;
+				font-size: 12px;
+				line-height: 1.5;
+				margin-bottom: 20px;
+			}
+			.demo strong {
+				color: #604711;
+			}
+			.modal-fondo {
+				position: fixed;
+				inset: 0;
+				background: #0c2342a6;
+				display: none;
+				align-items: center;
+				justify-content: center;
+				padding: 20px;
+				z-index: 5;
+			}
+			.modal-fondo.visible {
+				display: flex;
+			}
+			.modal {
+				background: white;
+				max-width: 440px;
+				width: 100%;
+				border-radius: 16px;
+				padding: 30px;
+				text-align: center;
+				box-shadow: 0 15px 50px #0003;
+			}
+			.check {
+				width: 56px;
+				height: 56px;
+				border-radius: 50%;
+				background: #e5f6ec;
+				color: var(--verde);
+				font-size: 28px;
+				display: grid;
+				place-items: center;
+				margin: 0 auto 15px;
+			}
+			.modal h2 {
+				color: var(--azul-oscuro);
+				margin-bottom: 10px;
+			}
+			.modal p {
+				color: var(--gris);
+				font-size: 14px;
+				line-height: 1.6;
+			}
+			.modal .boton {
+				margin-top: 22px;
+			}
+			@media (max-width: 800px) {
+				.columnas {
+					grid-template-columns: 1fr;
+				}
+				.resumen {
+					position: static;
+				}
+				.contenedor {
+					margin-top: 25px;
+				}
+				.encabezado h1 {
+					font-size: 26px;
+				}
+			}
+			@media (max-width: 520px) {
+				header {
+					padding: 12px 17px;
+					height: auto;
+				}
+				.marca {
+					font-size: 12px;
+				}
+				.logo {
+					width: 45px;
+					height: 45px;
+				}
+				.volver {
+					font-size: 12px;
+				}
+				.contenedor {
+					padding: 0 14px 28px;
+				}
+				.encabezado h1 {
+					font-size: 24px;
+				}
+				.contenido,
+				.panel-titulo {
+					padding: 18px;
+				}
+				.dos {
+					grid-template-columns: 1fr;
+					gap: 0;
+				}
+				.metodos {
+					grid-template-columns: 1fr;
+				}
+				.pasos {
+					gap: 7px;
+				}
+				.paso {
+					font-size: 11px;
+					gap: 5px;
+				}
+				.numero {
+					width: 24px;
+					height: 24px;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<header>
+			<a class="marca" href="index.html" style="text-decoration: none"
+				><img
+					class="logo"
+					src="logo.jpg"
+					alt="Logo del Politécnico Calasanz"
+				/><span
+					>POLITÉCNICO CALASANZ<small
+						>Portal de servicios escolares</small
+					></span
+				></a
+			>
+			<a class="volver" href="index.html">← Volver al sitio web</a>
+		</header>
+		<main class="contenedor">
+			<div class="encabezado">
+				<div class="migas">
+					<a href="index.html">Inicio</a> / Servicios escolares / Pago
+					de colegiatura
+				</div>
+				<h1>Pago de colegiatura</h1>
+				<p>
+					Completa los datos del estudiante y revisa el resumen antes
+					de continuar.
+				</p>
+				<div class="pasos">
+					<div class="paso activo">
+						<span class="numero">1</span> Datos del pago
+					</div>
+					<div class="linea"></div>
+					<div class="paso">
+						<span class="numero">2</span> Confirmación
+					</div>
+					<div class="linea"></div>
+					<div class="paso">
+						<span class="numero">3</span> Comprobante
+					</div>
+				</div>
+			</div>
+			<div class="demo">
+				<strong>Modo de demostración:</strong> esta página simula el
+				proceso para un proyecto escolar. No realiza cobros ni envía
+				datos a ningún servidor. Utiliza únicamente datos ficticios.
+			</div>
+			<form id="formPago">
+				<div class="columnas">
+					<div>
+						<section class="panel">
+							<div class="panel-titulo">
+								<div class="icono">♙</div>
+								<div>
+									<h2>Información del estudiante</h2>
+									<p>
+										Datos para identificar el pago escolar
+									</p>
+								</div>
+							</div>
+							<div class="contenido">
+								<div class="grupo">
+									<label for="estudiante"
+										>Nombre completo del estudiante</label
+									><input
+										id="estudiante"
+										name="estudiante"
+										autocomplete="name"
+										placeholder="Ej. Juan Pérez García"
+										required
+									/>
+								</div>
+								<div class="dos">
+									<div class="grupo">
+										<label for="matricula"
+											>Matrícula / código</label
+										><input
+											id="matricula"
+											name="matricula"
+											placeholder="Código estudiantil"
+											required
+										/>
+									</div>
+									<div class="grupo">
+										<label for="curso"
+											>Curso o sección</label
+										><input
+											id="curso"
+											name="curso"
+											placeholder="Ej. 5to B"
+											required
+										/>
+									</div>
+								</div>
+							</div>
+						</section>
+						<section class="panel">
+							<div class="panel-titulo">
+								<div class="icono">▤</div>
+								<div>
+									<h2>Detalles del pago</h2>
+									<p>
+										Selecciona el concepto que deseas pagar
+									</p>
+								</div>
+							</div>
+							<div class="contenido">
+								<div class="dos">
+									<div class="grupo">
+										<label for="concepto">Concepto</label
+										><select
+											id="concepto"
+											name="concepto"
+											required
+										>
+											<option value="">
+												Seleccionar
+											</option>
+											<option>Colegiatura mensual</option>
+											<option>Inscripción</option>
+											<option>
+												Materiales escolares
+											</option>
+											<option>
+												Otro concepto escolar
+											</option>
+										</select>
+									</div>
+									<div class="grupo">
+										<label for="periodo"
+											>Mes o período</label
+										><select
+											id="periodo"
+											name="periodo"
+											required
+										>
+											<option value="">
+												Seleccionar
+											</option>
+											<option>Octubre 2026</option>
+											<option>Noviembre 2026</option>
+											<option>Diciembre 2026</option>
+											<option>Enero 2027</option>
+											<option>Febrero 2027</option>
+											<option>Marzo 2027</option>
+											<option>Abril 2027</option>
+											<option>Mayo 2027</option>
+											<option>Junio 2027</option>
+											<option>No aplica</option>
+										</select>
+									</div>
+								</div>
+								<div class="grupo">
+									<label for="monto"
+										>Monto a pagar
+										<span class="ayuda">(RD$)</span></label
+									><input
+										id="monto"
+										name="monto"
+										type="number"
+										min="1"
+										max="1000000"
+										step="0.01"
+										placeholder="Escribe el monto indicado por el colegio"
+										required
+									/>
+								</div>
+							</div>
+						</section>
+						<section class="panel">
+							<div class="panel-titulo">
+								<div class="icono">▣</div>
+								<div>
+									<h2>Método de pago</h2>
+									<p>
+										Elige una forma de pago para la
+										demostración
+									</p>
+								</div>
+							</div>
+							<div class="contenido">
+								<div class="metodos">
+									<label class="metodo"
+										><input
+											type="radio"
+											name="metodo"
+											value="Tarjeta de crédito"
+											checked
+										/><span>Tarjeta de crédito</span
+										><span class="marcas-tarjeta"
+											>VISA</span
+										></label
+									><label class="metodo"
+										><input
+											type="radio"
+											name="metodo"
+											value="Tarjeta de débito"
+										/><span>Tarjeta de débito</span
+										><span class="marcas-tarjeta"
+											>MC</span
+										></label
+									>
+								</div>
+								<div class="campos-tarjeta">
+									<div class="grupo">
+										<label for="titular"
+											>Nombre del titular</label
+										><input
+											id="titular"
+											autocomplete="cc-name"
+											placeholder="Nombre como aparece en la tarjeta"
+											required
+										/>
+									</div>
+									<div class="grupo">
+										<label for="numeroTarjeta"
+											>Número de tarjeta
+											<span class="ayuda"
+												>(solo ficticio)</span
+											></label
+										>
+										<div class="campo-numero">
+											<input
+												id="numeroTarjeta"
+												inputmode="numeric"
+												autocomplete="off"
+												maxlength="19"
+												placeholder="0000 0000 0000 0000"
+												required
+											/><span class="mini-tarjeta"
+												>CARD</span
+											>
+										</div>
+									</div>
+									<div class="dos">
+										<div class="grupo">
+											<label for="vencimiento"
+												>Vencimiento</label
+											><input
+												id="vencimiento"
+												inputmode="numeric"
+												maxlength="5"
+												placeholder="MM/AA"
+												required
+											/>
+										</div>
+										<div class="grupo">
+											<label for="cvv"
+												>Código de seguridad</label
+											><input
+												id="cvv"
+												inputmode="numeric"
+												maxlength="4"
+												placeholder="CVV"
+												required
+											/>
+										</div>
+									</div>
+									<div class="nota-candado">
+										<span>🔒</span
+										><span
+											><strong>Protección de datos</strong
+											><br />En un sistema real, los datos
+											de tarjeta se procesarían mediante
+											una pasarela de pago certificada. En
+											esta maqueta no se transmite ni se
+											guarda la información
+											ingresada.</span
+										>
+									</div>
+								</div>
+							</div>
+						</section>
+					</div>
+					<aside>
+						<section class="panel resumen">
+							<div class="panel-titulo">
+								<div class="icono">▧</div>
+								<div>
+									<h2>Resumen del pago</h2>
+									<p>Verifica los datos antes de continuar</p>
+								</div>
+							</div>
+							<div class="contenido">
+								<div class="etiqueta">Total a pagar</div>
+								<div class="total" id="totalGrande">
+									RD$ 0.00
+								</div>
+								<div class="moneda">
+									Pesos dominicanos (DOP)
+								</div>
+								<div class="separador"></div>
+								<div class="fila">
+									<span>Estudiante</span
+									><strong id="resEstudiante"
+										>No indicado</strong
+									>
+								</div>
+								<div class="fila">
+									<span>Concepto</span
+									><strong id="resConcepto"
+										>No seleccionado</strong
+									>
+								</div>
+								<div class="fila">
+									<span>Período</span
+									><strong id="resPeriodo"
+										>No seleccionado</strong
+									>
+								</div>
+								<div class="fila">
+									<span>Procesamiento</span
+									><strong>RD$ 0.00</strong>
+								</div>
+								<div class="fila total-fila">
+									<span>Total</span
+									><strong id="totalFila">RD$ 0.00</strong>
+								</div>
+								<button
+									class="boton"
+									id="btnPagar"
+									type="submit"
+								>
+									Revisar y continuar →
+								</button>
+								<div class="seguridad">
+									🔒 Formulario de demostración · Sin cobro
+									real
+								</div>
+								<div class="info">
+									<strong>¿Necesitas ayuda?</strong>Comunícate
+									con la administración del Politécnico para
+									confirmar el monto y los datos de pago antes
+									de realizar una transacción real.
+								</div>
+							</div>
+						</section>
+						<p class="pie">
+							© 2026 Politécnico Calasanz<br />Portal de servicios
+							escolares ·
+							<a href="index.html">Página principal</a>
+						</p>
+					</aside>
+				</div>
+			</form>
+		</main>
+		<div
+			class="modal-fondo"
+			id="modalFondo"
+			role="dialog"
+			aria-modal="true"
+			aria-labelledby="tituloModal"
+		>
+			<div class="modal">
+				<div class="check">✓</div>
+				<h2 id="tituloModal">Demostración completada</h2>
+				<p id="mensajeModal">
+					Los datos se validaron correctamente, pero no se realizó
+					ningún cobro. Esta página es una maqueta y no genera un
+					comprobante oficial.
+				</p>
+				<button class="boton" id="cerrarModal" type="button">
+					Volver al formulario
+				</button>
+			</div>
+		</div>
+		<script>
+			const formulario = document.getElementById("formPago");
+			const estudiante = document.getElementById("estudiante");
+			const concepto = document.getElementById("concepto");
+			const periodo = document.getElementById("periodo");
+			const monto = document.getElementById("monto");
+			const formato = new Intl.NumberFormat("es-DO", {
+				minimumFractionDigits: 2,
+				maximumFractionDigits: 2,
+			});
+			function actualizarResumen() {
+				const total = Number(monto.value) || 0;
+				const texto = "RD$ " + formato.format(total);
+				document.getElementById("totalGrande").textContent = texto;
+				document.getElementById("totalFila").textContent = texto;
+				document.getElementById("resEstudiante").textContent =
+					estudiante.value.trim() || "No indicado";
+				document.getElementById("resConcepto").textContent =
+					concepto.value || "No seleccionado";
+				document.getElementById("resPeriodo").textContent =
+					periodo.value || "No seleccionado";
+			}
+			[estudiante, concepto, periodo, monto].forEach((campo) =>
+				campo.addEventListener("input", actualizarResumen),
+			);
+			const numeroTarjeta = document.getElementById("numeroTarjeta");
+			numeroTarjeta.addEventListener("input", () => {
+				let valor = numeroTarjeta.value.replace(/\D/g, "").slice(0, 16);
+				numeroTarjeta.value = valor.replace(/(.{4})/g, "$1 ").trim();
+			});
+			document
+				.getElementById("vencimiento")
+				.addEventListener("input", (e) => {
+					let v = e.target.value.replace(/\D/g, "").slice(0, 4);
+					if (v.length > 2) v = v.slice(0, 2) + "/" + v.slice(2);
+					e.target.value = v;
+				});
+			document
+				.getElementById("cvv")
+				.addEventListener(
+					"input",
+					(e) =>
+						(e.target.value = e.target.value
+							.replace(/\D/g, "")
+							.slice(0, 4)),
+				);
+			formulario.addEventListener("submit", (e) => {
+				e.preventDefault();
+				if (!formulario.reportValidity()) return;
+				if (numeroTarjeta.value.replace(/\D/g, "").length < 13) {
+					numeroTarjeta.setCustomValidity(
+						"Introduce un número ficticio de tarjeta de al menos 13 dígitos.",
+					);
+					numeroTarjeta.reportValidity();
+					numeroTarjeta.setCustomValidity("");
+					return;
+				}
+				const vencimiento =
+					document.getElementById("vencimiento").value;
+				if (!/^((0[1-9])|(1[0-2]))\/\d{2}$/.test(vencimiento)) {
+					document
+						.getElementById("vencimiento")
+						.setCustomValidity("Usa el formato MM/AA.");
+					document.getElementById("vencimiento").reportValidity();
+					document
+						.getElementById("vencimiento")
+						.setCustomValidity("");
+					return;
+				}
+				document.getElementById("mensajeModal").textContent =
+					"Se validó el formulario para " +
+					estudiante.value.trim() +
+					". El monto de " +
+					("RD$ " + formato.format(Number(monto.value))) +
+					" quedó como ejemplo. No se realizó ningún cobro y no se generó un comprobante oficial.";
+				document.getElementById("modalFondo").classList.add("visible");
+			});
+			document
+				.getElementById("cerrarModal")
+				.addEventListener("click", () =>
+					document
+						.getElementById("modalFondo")
+						.classList.remove("visible"),
+				);
+			actualizarResumen();
+		</script>
+	</body>
+</html>

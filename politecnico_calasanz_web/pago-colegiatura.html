@@ -1,0 +1,775 @@
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Pago de Colegiatura | Politécnico Calasanz</title>
+
+		<style>
+			* {
+				box-sizing: border-box;
+				margin: 0;
+				padding: 0;
+			}
+
+			body {
+				font-family: Arial, sans-serif;
+				background: #f5f8fc;
+				color: #123b68;
+			}
+
+			header {
+				background: white;
+				padding: 22px 7%;
+				display: flex;
+				align-items: center;
+				gap: 15px;
+				box-shadow: 0 2px 8px #123b6812;
+			}
+
+			.logo {
+				width: 65px;
+				height: 65px;
+				border-radius: 50%;
+				border: 2px solid #124b87;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-weight: bold;
+				color: #124b87;
+			}
+
+			header h1 {
+				font-size: 21px;
+			}
+
+			header p {
+				font-size: 13px;
+				color: #66758a;
+				margin-top: 5px;
+			}
+
+			.contenedor {
+				width: min(1050px, 92%);
+				margin: 35px auto;
+			}
+
+			.encabezado {
+				margin-bottom: 25px;
+			}
+
+			.encabezado h2 {
+				font-size: 28px;
+				margin-bottom: 8px;
+			}
+
+			.encabezado p {
+				color: #68778a;
+				line-height: 1.5;
+			}
+
+			.contenido {
+				display: grid;
+				grid-template-columns: 1.2fr 0.8fr;
+				gap: 25px;
+				align-items: start;
+			}
+
+			.panel {
+				background: white;
+				border-radius: 14px;
+				padding: 25px;
+				box-shadow: 0 4px 18px #123b6810;
+				border: 1px solid #e4eaf2;
+			}
+
+			.panel h3 {
+				font-size: 19px;
+				margin-bottom: 20px;
+			}
+
+			.grupo {
+				margin-bottom: 17px;
+			}
+
+			label {
+				display: block;
+				font-size: 13px;
+				font-weight: bold;
+				margin-bottom: 7px;
+			}
+
+			input,
+			select {
+				width: 100%;
+				padding: 12px;
+				border: 1px solid #cbd6e4;
+				border-radius: 7px;
+				font-size: 14px;
+				background: white;
+				color: #123b68;
+			}
+
+			input:focus,
+			select:focus {
+				outline: 2px solid #9bc8f7;
+				border-color: #124b87;
+			}
+
+			.dos {
+				display: grid;
+				grid-template-columns: 1fr 1fr;
+				gap: 12px;
+			}
+
+			/* Tarjeta visual */
+			.tarjeta {
+				position: relative;
+				overflow: hidden;
+				padding: 22px;
+				min-height: 245px;
+				border-radius: 17px;
+				color: white;
+				background: linear-gradient(130deg, #18385e, #124b87 58%, #347db5);
+				box-shadow: 0 10px 22px #102d4b35;
+			}
+
+			.tarjeta::before,
+			.tarjeta::after {
+				content: '';
+				position: absolute;
+				border: 1px solid #ffffff20;
+				border-radius: 50%;
+				pointer-events: none;
+			}
+
+			.tarjeta::before {
+				width: 290px;
+				height: 290px;
+				right: -100px;
+				top: -160px;
+			}
+
+			.tarjeta::after {
+				width: 230px;
+				height: 230px;
+				right: -60px;
+				bottom: -175px;
+			}
+
+			.tarjeta-superior {
+				position: relative;
+				z-index: 1;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				gap: 10px;
+				font-size: 11px;
+				font-weight: bold;
+				letter-spacing: 1px;
+			}
+
+			.chip {
+				width: 37px;
+				height: 27px;
+				flex-shrink: 0;
+				border-radius: 5px;
+				background: linear-gradient(135deg, #f8df96, #c79a32);
+				border: 1px solid #f9e7ad;
+				position: relative;
+			}
+
+			.chip::after {
+				content: '';
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				left: 11px;
+				right: 11px;
+				border-left: 1px solid #a67c24;
+				border-right: 1px solid #a67c24;
+			}
+
+			.numero-tarjeta {
+				position: relative;
+				z-index: 1;
+				display: grid;
+				grid-template-columns: repeat(4, minmax(0, 1fr));
+				gap: 7px;
+				margin: 25px 0;
+			}
+
+			.numero-tarjeta input {
+				min-width: 0;
+				width: 100%;
+				padding: 10px 1px;
+				text-align: center;
+				font-size: clamp(12px, 1.6vw, 18px);
+				font-weight: bold;
+				letter-spacing: 1px;
+				color: #123b68;
+				background: white;
+				border: 1px solid #dbe5f2;
+				border-radius: 5px;
+			}
+
+			.tarjeta-inferior {
+				position: relative;
+				z-index: 1;
+				display: grid;
+				grid-template-columns: minmax(0, 1fr) auto;
+				align-items: end;
+				gap: 12px;
+			}
+
+			.tarjeta small {
+				display: block;
+				color: #d7e6f5;
+				font-size: 8px;
+				letter-spacing: 1px;
+				margin-bottom: 6px;
+			}
+
+			.titular {
+				min-width: 0;
+			}
+
+			.titular input {
+				width: 100%;
+				min-width: 0;
+			}
+
+			.vence {
+				width: 105px;
+			}
+
+			.fecha {
+				display: flex;
+				align-items: center;
+				gap: 4px;
+			}
+
+			.fecha input {
+				width: 45px;
+				min-width: 0;
+				padding: 9px 2px;
+				text-align: center;
+			}
+
+			.fecha span {
+				color: white;
+			}
+
+			.cvv {
+				position: relative;
+				z-index: 1;
+				margin-top: 13px;
+				display: flex;
+				align-items: center;
+				gap: 10px;
+			}
+
+			.cvv small {
+				margin: 0;
+			}
+
+			.cvv input {
+				width: 75px;
+				padding: 8px;
+			}
+
+			.aviso-tarjeta {
+				position: relative;
+				z-index: 1;
+				text-align: right;
+				margin-top: 10px;
+				font-size: 8px;
+				color: #d7e6f5;
+				letter-spacing: 0.7px;
+			}
+
+			.nota {
+				color: #718096;
+				font-size: 12px;
+				line-height: 1.5;
+				margin-top: 15px;
+			}
+
+			.resumen-fila {
+				display: flex;
+				justify-content: space-between;
+				gap: 12px;
+				padding: 13px 0;
+				border-bottom: 1px solid #e8edf4;
+				font-size: 14px;
+			}
+
+			.resumen-fila span {
+				color: #6d7a8c;
+			}
+
+			.total {
+				display: flex;
+				justify-content: space-between;
+				gap: 12px;
+				margin-top: 20px;
+				font-size: 20px;
+				font-weight: bold;
+			}
+
+			.boton {
+				display: block;
+				width: 100%;
+				padding: 14px;
+				margin-top: 23px;
+				border: none;
+				border-radius: 8px;
+				background: #124b87;
+				color: white;
+				font-size: 15px;
+				font-weight: bold;
+				cursor: pointer;
+			}
+
+			.boton:hover {
+				background: #0b3766;
+			}
+
+			.seguridad {
+				margin-top: 16px;
+				padding: 12px;
+				border-radius: 8px;
+				background: #edf7f0;
+				color: #28633b;
+				font-size: 12px;
+				line-height: 1.5;
+			}
+
+			.modal {
+				display: none;
+				position: fixed;
+				inset: 0;
+				z-index: 10;
+				background: #10243b99;
+				padding: 20px;
+				align-items: center;
+				justify-content: center;
+			}
+
+			.modal.visible {
+				display: flex;
+			}
+
+			.modal-contenido {
+				max-width: 420px;
+				width: 100%;
+				padding: 28px;
+				background: white;
+				border-radius: 14px;
+				text-align: center;
+			}
+
+			.modal-contenido h3 {
+				margin-bottom: 12px;
+			}
+
+			.modal-contenido p {
+				color: #68778a;
+				line-height: 1.6;
+			}
+
+			footer {
+				padding: 25px;
+				text-align: center;
+				color: #718096;
+				font-size: 12px;
+			}
+
+			@media (max-width: 800px) {
+				.contenido {
+					grid-template-columns: 1fr;
+				}
+
+				header {
+					padding: 18px 5%;
+				}
+			}
+
+			@media (max-width: 420px) {
+				.panel {
+					padding: 17px;
+				}
+
+				.tarjeta {
+					padding: 16px;
+					min-height: 235px;
+				}
+
+				.numero-tarjeta {
+					gap: 4px;
+				}
+
+				.numero-tarjeta input {
+					font-size: 12px;
+				}
+
+				.tarjeta-inferior {
+					gap: 6px;
+				}
+
+				.vence {
+					width: 94px;
+				}
+			}
+		</style>
+	</head>
+
+	<body>
+		<header>
+			<div class="logo">PC</div>
+			<div>
+				<h1>POLITÉCNICO CALASANZ</h1>
+				<p>Portal de pagos escolares</p>
+			</div>
+		</header>
+
+		<main class="contenedor">
+			<section class="encabezado">
+				<h2>Pago de colegiatura</h2>
+				<p>
+					Completa los datos del estudiante y selecciona el concepto que deseas
+					pagar.
+				</p>
+			</section>
+
+			<div class="contenido">
+				<section class="panel">
+					<h3>Información del pago</h3>
+
+					<form id="formPago">
+						<div class="grupo">
+							<label for="estudiante">Nombre del estudiante</label>
+							<input
+								id="estudiante"
+								type="text"
+								placeholder="Nombre completo"
+								required
+							/>
+						</div>
+
+						<div class="dos">
+							<div class="grupo">
+								<label for="matricula">Matrícula</label>
+								<input
+									id="matricula"
+									type="text"
+									placeholder="Ej. PC-2026-001"
+								/>
+							</div>
+
+							<div class="grupo">
+								<label for="curso">Curso</label>
+								<select id="curso" required>
+									<option value="">Seleccionar</option>
+									<option>1ro de secundaria</option>
+									<option>2do de secundaria</option>
+									<option>3ro de secundaria</option>
+									<option>4to de secundaria</option>
+									<option>5to de secundaria</option>
+									<option>6to de secundaria</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="grupo">
+							<label for="concepto">Concepto del pago</label>
+							<select id="concepto" required>
+								<option value="">Seleccionar concepto</option>
+								<option value="Colegiatura">Colegiatura</option>
+								<option value="Inscripción">Inscripción</option>
+								<option value="Materiales">Materiales escolares</option>
+								<option value="Uniforme">Uniforme</option>
+								<option value="Otro">Otro</option>
+							</select>
+						</div>
+
+						<div class="dos">
+							<div class="grupo">
+								<label for="periodo">Período</label>
+								<select id="periodo" required>
+									<option value="">Seleccionar</option>
+									<option>Septiembre</option>
+									<option>Octubre</option>
+									<option>Noviembre</option>
+									<option>Diciembre</option>
+									<option>Enero</option>
+									<option>Febrero</option>
+									<option>Marzo</option>
+									<option>Abril</option>
+									<option>Mayo</option>
+									<option>Junio</option>
+								</select>
+							</div>
+
+							<div class="grupo">
+								<label for="monto">Monto (RD$)</label>
+								<input
+									id="monto"
+									type="number"
+									min="1"
+									step="0.01"
+									placeholder="2500"
+									required
+								/>
+							</div>
+						</div>
+
+						<h3 style="margin-top: 12px">Datos de la tarjeta</h3>
+
+						<div class="tarjeta">
+							<div class="tarjeta-superior">
+								<span>POLITÉCNICO CALASANZ</span>
+								<span class="chip"></span>
+							</div>
+
+							<div class="numero-tarjeta">
+								<input
+									type="text"
+									class="numero"
+									maxlength="4"
+									inputmode="numeric"
+									placeholder="0000"
+									aria-label="Primer grupo del número de tarjeta"
+									autocomplete="off"
+									required
+								/>
+								<input
+									type="text"
+									class="numero"
+									maxlength="4"
+									inputmode="numeric"
+									placeholder="0000"
+									aria-label="Segundo grupo del número de tarjeta"
+									autocomplete="off"
+									required
+								/>
+								<input
+									type="text"
+									class="numero"
+									maxlength="4"
+									inputmode="numeric"
+									placeholder="0000"
+									aria-label="Tercer grupo del número de tarjeta"
+									autocomplete="off"
+									required
+								/>
+								<input
+									type="text"
+									class="numero"
+									maxlength="4"
+									inputmode="numeric"
+									placeholder="0000"
+									aria-label="Cuarto grupo del número de tarjeta"
+									autocomplete="off"
+									required
+								/>
+							</div>
+
+							<div class="tarjeta-inferior">
+								<div class="titular">
+									<small>TITULAR DE LA TARJETA</small>
+									<input
+										type="text"
+										placeholder="Nombre del titular"
+										aria-label="Nombre del titular"
+										autocomplete="off"
+										required
+									/>
+								</div>
+
+								<div class="vence">
+									<small>VENCE</small>
+									<div class="fecha">
+										<input
+											type="text"
+											maxlength="2"
+											inputmode="numeric"
+											placeholder="MM"
+											aria-label="Mes de vencimiento"
+											required
+										/>
+										<span>/</span>
+										<input
+											type="text"
+											maxlength="2"
+											inputmode="numeric"
+											placeholder="AA"
+											aria-label="Año de vencimiento"
+											required
+										/>
+									</div>
+								</div>
+							</div>
+
+							<div class="cvv">
+								<small>CVV</small>
+								<input
+									type="password"
+									maxlength="4"
+									inputmode="numeric"
+									placeholder="•••"
+									aria-label="Código de seguridad"
+									autocomplete="off"
+									required
+								/>
+							</div>
+
+							<div class="aviso-tarjeta">TARJETA DE DEMOSTRACIÓN</div>
+						</div>
+
+						<p class="nota">
+							Esta tarjeta es una demostración visual. No introduzcas datos
+							bancarios reales.
+						</p>
+
+						<button type="submit" class="boton">
+							Confirmar pago de demostración
+						</button>
+					</form>
+				</section>
+
+				<aside class="panel">
+					<h3>Resumen del pago</h3>
+
+					<div class="resumen-fila">
+						<span>Estudiante</span>
+						<strong id="resEstudiante">No indicado</strong>
+					</div>
+
+					<div class="resumen-fila">
+						<span>Concepto</span>
+						<strong id="resConcepto">No seleccionado</strong>
+					</div>
+
+					<div class="resumen-fila">
+						<span>Período</span>
+						<strong id="resPeriodo">No seleccionado</strong>
+					</div>
+
+					<div class="resumen-fila">
+						<span>Forma de pago</span>
+						<strong>Tarjeta</strong>
+					</div>
+
+					<div class="total">
+						<span>Total</span>
+						<strong id="totalGrande">RD$ 0.00</strong>
+					</div>
+
+					<div class="seguridad">
+						<strong>Información importante</strong>
+						<br />
+						Esta página es una maqueta escolar. No realiza cobros, no se conecta
+						a un banco y no guarda los datos introducidos.
+					</div>
+				</aside>
+			</div>
+		</main>
+
+		<footer>© 2026 Politécnico Calasanz. Todos los derechos reservados.</footer>
+
+		<div class="modal" id="modalFondo">
+			<div class="modal-contenido">
+				<h3>Demostración completada</h3>
+				<p id="mensajeModal">No se ha realizado ningún cobro.</p>
+				<button type="button" class="boton" id="cerrarModal">Cerrar</button>
+			</div>
+		</div>
+
+		<script>
+			const formulario = document.getElementById('formPago');
+			const estudiante = document.getElementById('estudiante');
+			const concepto = document.getElementById('concepto');
+			const periodo = document.getElementById('periodo');
+			const monto = document.getElementById('monto');
+
+			const formato = new Intl.NumberFormat('es-DO', {
+				minimumFractionDigits: 2,
+				maximumFractionDigits: 2,
+			});
+
+			function actualizarResumen() {
+				const total = Number(monto.value) || 0;
+				const texto = 'RD$ ' + formato.format(total);
+
+				document.getElementById('totalGrande').textContent = texto;
+				document.getElementById('resEstudiante').textContent =
+					estudiante.value.trim() || 'No indicado';
+				document.getElementById('resConcepto').textContent =
+					concepto.value || 'No seleccionado';
+				document.getElementById('resPeriodo').textContent =
+					periodo.value || 'No seleccionado';
+			}
+
+			[estudiante, concepto, periodo, monto].forEach((campo) => {
+				campo.addEventListener('input', actualizarResumen);
+				campo.addEventListener('change', actualizarResumen);
+			});
+
+			// Permite escribir solamente números en los grupos de la tarjeta.
+			const gruposTarjeta = document.querySelectorAll('.numero');
+
+			gruposTarjeta.forEach((campo, indice) => {
+				campo.addEventListener('input', () => {
+					campo.value = campo.value.replace(/\D/g, '').slice(0, 4);
+
+					if (campo.value.length === 4 && gruposTarjeta[indice + 1]) {
+						gruposTarjeta[indice + 1].focus();
+					}
+				});
+			});
+
+			// Limita la fecha y el CVV a dígitos.
+			const camposFecha = document.querySelectorAll('.fecha');
+			camposFecha.forEach((campo) => {
+				campo.addEventListener('input', () => {
+					campo.value = campo.value.replace(/\D/g, '').slice(0, 2);
+				});
+			});
+
+			const cvv = document.querySelector('.cvv input');
+			cvv.addEventListener('input', () => {
+				cvv.value = cvv.value.replace(/\D/g, '').slice(0, 4);
+			});
+
+			formulario.addEventListener('submit', (evento) => {
+				evento.preventDefault();
+
+				if (!formulario.reportValidity()) {
+					return;
+				}
+
+				const mes = camposFecha[0].value;
+				if (Number(mes) < 1 || Number(mes) > 12) {
+					camposFecha[0].setCustomValidity('Escribe un mes entre 01 y 12.');
+					camposFecha[0].reportValidity();
+					camposFecha[0].setCustomValidity('');
+					return;
+				}
+
+				document.getElementById('mensajeModal').textContent =
+					'La demostración para ' +
+					(estudiante.value.trim() || 'el estudiante') +
+					' ha terminado. No se realizó ningún cobro ni se guardaron datos bancarios.';
+
+				document.getElementById('modalFondo').classList.add('visible');
+			});
+
+			document.getElementById('cerrarModal').addEventListener('click', () => {
+				document.getElementById('modalFondo').classList.remove('visible');
+			});
+
+			actualizarResumen();
+		</script>
+	</body>
+</html>

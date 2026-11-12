@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+		<title>Solicitud de admisión | Politécnico Calasanz</title>
+		<style>
+			* {
+				box-sizing: border-box;
+				margin: 0;
+				padding: 0;
+			}
+			body {
+				font-family: Arial, sans-serif;
+				background: #f5f8fc;
+				color: #123b68;
+				padding: 25px;
+			}
+			.formulario {
+				max-width: 760px;
+				margin: 20px auto;
+				background: white;
+				padding: 30px;
+				border-radius: 15px;
+				box-shadow: 0 4px 15px #0002;
+				border-top: 5px solid #124b87;
+			}
+			.logo {
+				display: block;
+				width: 70px;
+				height: 70px;
+				object-fit: contain;
+				margin: 0 auto 10px;
+			}
+			h1 {
+				text-align: center;
+				color: #124b87;
+				margin-bottom: 8px;
+			}
+			.intro {
+				text-align: center;
+				color: #526579;
+				margin-bottom: 25px;
+			}
+			.campos {
+				display: grid;
+				grid-template-columns: 1fr 1fr;
+				gap: 16px;
+			}
+			label {
+				display: block;
+				font-weight: bold;
+				margin-bottom: 6px;
+			}
+			input,
+			select,
+			textarea {
+				width: 100%;
+				padding: 11px;
+				border: 1px solid #c4d2e2;
+				border-radius: 8px;
+				font: inherit;
+			}
+			textarea {
+				resize: vertical;
+				min-height: 85px;
+			}
+			.completo {
+				grid-column: 1/-1;
+			}
+			button,
+			.boton {
+				display: inline-block;
+				padding: 12px 20px;
+				border: 0;
+				border-radius: 9px;
+				background: #124b87;
+				color: white;
+				text-decoration: none;
+				font-weight: bold;
+				cursor: pointer;
+				margin-top: 20px;
+			}
+			button:hover,
+			.boton:hover {
+				background: #123b68;
+			}
+			.aviso {
+				font-size: 13px;
+				color: #657386;
+				margin-top: 14px;
+				line-height: 1.5;
+			}
+			@media (max-width: 600px) {
+				.campos {
+					grid-template-columns: 1fr;
+				}
+				.completo {
+					grid-column: auto;
+				}
+				.formulario {
+					padding: 22px;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<main class="formulario">
+			<img
+				class="logo"
+				src="logo.jpg"
+				alt="Logo del Politécnico Calasanz"
+			/>
+			<h1>Solicitud de admisión</h1>
+			<p class="intro">
+				Completa los datos para iniciar una solicitud de admisión.
+			</p>
+			<form
+				onsubmit="
+					event.preventDefault();
+					alert(
+						'Formulario de demostración. Para recibir solicitudes reales, debe conectarse a un sistema que las guarde.',
+					);
+				"
+			>
+				<div class="campos">
+					<div>
+						<label for="estudiante">Nombre del estudiante</label
+						><input id="estudiante" required />
+					</div>
+					<div>
+						<label for="nacimiento">Fecha de nacimiento</label
+						><input id="nacimiento" type="date" required />
+					</div>
+					<div>
+						<label for="grado">Grado al que solicita</label
+						><select id="grado" required>
+							<option value="">Selecciona el grado</option>
+							<option>1ro de secundaria</option>
+							<option>2do de secundaria</option>
+							<option>3ro de secundaria</option>
+							<option>4to de secundaria</option>
+							<option>5to de secundaria</option>
+							<option>6to de secundaria</option>
+						</select>
+					</div>
+					<div>
+						<label for="tutor"
+							>Nombre del padre, madre o tutor</label
+						><input id="tutor" required />
+					</div>
+					<div>
+						<label for="telefono">Teléfono de contacto</label
+						><input id="telefono" type="tel" required />
+					</div>
+					<div>
+						<label for="correo">Correo electrónico</label
+						><input id="correo" type="email" />
+					</div>
+					<div class="completo">
+						<label for="nota"
+							>Información adicional (opcional)</label
+						><textarea id="nota"></textarea>
+					</div>
+				</div>
+				<button type="submit">Enviar solicitud</button>
+			</form>
+			<p class="aviso">
+				Este formulario es una demostración y no envía ni almacena
+				información todavía.
+			</p>
+			<a class="boton" href="index.html">Volver al inicio</a>
+		</main>
+	</body>
+</html>
